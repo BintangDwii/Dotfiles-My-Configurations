@@ -5,7 +5,7 @@ return {
     {
       "<leader>mp",
       function()
-        require("conform").format({ lsp_fallback = true, async = false, timeout_ms = 2000 })
+        require("conform").format({ lsp_format = "fallback", async = false, timeout_ms = 2000 })
       end,
       desc = "Format file or range",
       mode = { "n", "v" },
@@ -20,7 +20,7 @@ return {
         typescript = { "prettier" },
         javascriptreact = { "prettier" },
         typescriptreact = { "prettier" },
-        rust = { "rustfmt" },
+        rust = { "leptosfmt", "rustfmt", stop_after_first = true },
         html = { "prettier" },
         json = { "prettier" },
         yaml = { "prettier" },
@@ -31,8 +31,16 @@ return {
         prettier = {
           stop_after_first = true,
         },
+        leptosfmt = {
+          command = "leptosfmt",
+          args = { "--stdin", "--rustfmt" },
+          stdin = true,
+        },
       },
-      async = true,
+      format_on_save = {
+        lsp_format = "fallback",
+        timeout_ms = 2000,
+      },
     })
   end,
 }
