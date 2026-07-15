@@ -5,7 +5,7 @@ COLORTERM = "truecolor"
 [window]
 # padding.x = 10
 padding = { x = 10, y = 10 }
-opacity = 0.8
+opacity = 1
 blur = false
 
 decorations = "none"
