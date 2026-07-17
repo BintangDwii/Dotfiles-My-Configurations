@@ -52,7 +52,6 @@ export FZF_CTRL_R_OPTS="\
 # ──[ Environment Variables ]────────────────────────────────────────────────────
 export W3MIMGDISPLAY=/usr/lib/w3m/w3mimgdisplay
 export COLORTERM=truecolor
-export TERM=xterm-256color
 export SHELL="$(which zsh)"
 export OPENSSL_DIR="/usr"
 export DOCKER_BUILDKIT=1
@@ -73,6 +72,11 @@ export PERL_LOCAL_LIB_ROOT="/home/rendi/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCA
 export PERL_MB_OPT="--install_base \"/home/rendi/perl5\""
 export PERL_MM_OPT="INSTALL_BASE=/home/rendi/perl5"
 export PHP_INI_SCAN_DIR="/home/rendi/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+
+# Keep C-s available for tmux prefix/QMK macros instead of terminal flow control.
+if [[ -t 0 ]]; then
+  stty -ixon 2>/dev/null
+fi
 
 typeset -U path
 path=(
@@ -125,6 +129,7 @@ zsh-defer eval "$(zoxide init zsh)"
 
 # ──[ Suggestions & Syntax Highlighting ]───────────────────────────────────────
 zsh-defer source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+zsh-defer -c 'bindkey -M emacs "^ " autosuggest-accept; bindkey -M viins "^ " autosuggest-accept; bindkey -M emacs "^[f" forward-word; bindkey -M viins "^[f" forward-word'
 zsh-defer source ~/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ──[ History Settings ]────────────────────────────────────────────────────────

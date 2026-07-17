@@ -20,7 +20,7 @@ return {
         typescript = { "prettier" },
         javascriptreact = { "prettier" },
         typescriptreact = { "prettier" },
-        rust = { "leptosfmt", "rustfmt", stop_after_first = true },
+        rust = { "rustfmt" },
         html = { "prettier" },
         json = { "prettier" },
         yaml = { "prettier" },

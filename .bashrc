@@ -7,7 +7,9 @@
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-export TERM=xterm-256color
 export COLORTERM=truecolor
+if [[ -t 0 ]]; then
+    stty -ixon 2>/dev/null
+fi
 PS1='[\u@\h \W]\$ '
 [ -f ~/export-esp.sh ] && . ~/export-esp.sh

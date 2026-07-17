@@ -1,7 +1,7 @@
 # ~/.aliases - ultimate text-surgery aliases/functions for bash or zsh
 
 # Prevent existing aliases from breaking function definitions in zsh
-unalias ff fdext fdir rgi rgf rgc rgctx todo sdrun sdall sdrxrun sdrxall trimfiles freq words sumcol avgcol topfield rxonly jpp jpick csvview ws1 lower upper snake cutc between untilpat splitby catuniq intersect commdiff cbcopy cbpaste brightness fdcount fdsize fddel rgurl rgip rgemail glogf gchange gpr grem gloc gstas gcon gignore diffstat diffword csvjoin csvdedup csvsort csvcol csvstats csvslice jsonvalid jsonflat jsonwalk b64enc b64dec urlenc urldec hexencode hexdecode camel kebab title batchrn batchcp batchchmod batchconvert batchresize dedupfiles deduplines tarc tarx tarl portscan fastscan listenports detectservices netinfo myip myips dnscheck dnsptr dnsmail httpstatus httpheader httpbody apicheck apiscan cookiecheck headcheck csrfcheck sslcheck ssltest recon-audit recon-webcheck sec-status sec-tools suspicious analyze stringsx hexview entropy cmpbin peek exif genpass genpass-simple genuuid totp hash hashall crypt decrypt seal unseal gpg-enc gpg-dec logcheck secwatch sudocheck lastlogins mkcd hist histn extract here cheat epoch count size findtext colors path fm paint sysinfo sysdisk sysmem syscpu sysuptime systemp procs prockill proctop procmon 2>/dev/null
+unalias ff fdext fdir rgi rgf rgc rgctx todo sdrun sdall sdrxrun sdrxall trimfiles freq words sumcol avgcol topfield rxonly jpp jpick csvview ws1 lower upper snake cutc between untilpat splitby catuniq intersect commdiff cbcopy cbpaste brightness fdcount fdsize fddel rgurl rgip rgemail glogf gchange gpr grem gloc gstas gcon gignore diffstat diffword csvjoin csvdedup csvsort csvcol csvstats csvslice jsonvalid jsonflat jsonwalk b64enc b64dec urlenc urldec hexencode hexdecode camel kebab title batchrn batchcp batchchmod batchconvert batchresize dedupfiles deduplines tarc tarx tarl portscan fastscan listenports detectservices netinfo myip myips dnscheck dnsptr dnsmail httpstatus httpheader httpbody apicheck apiscan cookiecheck headcheck csrfcheck sslcheck ssltest recon-audit recon-webcheck sec-status sec-tools suspicious analyze stringsx hexview entropy cmpbin peek exif genpass genpass-simple genuuid totp hash hashall crypt decrypt seal unseal gpg-enc gpg-dec logcheck secwatch sudocheck lastlogins mkcd hist histn extract here cheat epoch count size findtext colors path fm paint sysinfo sysdisk sysmem syscpu sysuptime systemp procs prockill proctop procmon grh gclean dprune j ba 2>/dev/null
 
 # ──[ System & Process ]────────────────────────────────────────────
 
@@ -415,6 +415,27 @@ alias gco="git commit"
 alias gcm="git commit -m"
 alias gca="git commit --amend"
 alias gundo="git reset --soft HEAD~1"
+grh() {
+  printf 'About to run: git reset --hard %s\n' "$*" >&2
+  printf 'Type reset-hard to continue: ' >&2
+  read -r confirm
+  [ "$confirm" = "reset-hard" ] || { printf 'aborted\n' >&2; return 1; }
+  git reset --hard "$@"
+}
+gclean() {
+  git clean -fdn "$@"
+  printf 'Type clean-files to run git clean -fd %s: ' "$*" >&2
+  read -r confirm
+  [ "$confirm" = "clean-files" ] || { printf 'aborted\n' >&2; return 1; }
+  git clean -fd "$@"
+}
+dprune() {
+  docker system df
+  printf 'Type docker-prune to run docker system prune -af: ' >&2
+  read -r confirm
+  [ "$confirm" = "docker-prune" ] || { printf 'aborted\n' >&2; return 1; }
+  docker system prune -af
+}
 alias grb="git rebase"
 alias grbi="git rebase -i"
 alias grbc="git rebase --continue"
@@ -426,7 +447,6 @@ alias gra="git remote add"
 alias grv="git remote -v"
 alias grr="git remote remove"
 alias gr="git reset"
-alias grh="git reset --hard"
 alias grs="git restore"
 alias grss="git restore --staged"
 alias gst="git stash"
@@ -451,7 +471,6 @@ alias gsmsync="git submodule sync"
 alias grfl="git reflog"
 alias gsw="git switch"
 alias gswc="git switch -c"
-alias gclean="git clean -fd"
 alias gprune="git fetch -p && git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 # Example: glogf src/main.rs
@@ -517,7 +536,14 @@ diffword() {
 
 # ──[ Build Tools ]─────────────────────────────────────────────────
 
-alias j="just"
+j() {
+  if command -v just >/dev/null 2>&1; then
+    just "$@"
+  else
+    printf 'just is not installed. Install with: cargo binstall just\n' >&2
+    return 127
+  fi
+}
 alias jsb="just sb"
 alias jsf="just sf"
 alias jcf="just cf"
@@ -532,17 +558,26 @@ alias dce="docker compose exec"
 alias dcps="docker compose ps"
 alias dcrm="docker compose rm"
 alias dip="docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'"
-alias dprune="docker system prune -af"
 alias dbuild="docker build -t"
 alias dcupr="docker compose up -d --remove-orphans"
 alias dcres="docker compose restart"
 alias cac="cargo check"
+alias cacl="cargo clippy --all-targets --all-features -- -D warnings"
 alias ct="cargo test"
+alias cnt="cargo nextest run"
 alias caf="cargo fmt"
 alias cad="cargo doc --open"
 alias cab="cargo build"
 alias car="cargo run"
 alias caclean="cargo clean"
+ba() {
+  if command -v bacon >/dev/null 2>&1; then
+    bacon "$@"
+  else
+    printf 'bacon is not installed. Install with: cargo binstall bacon\n' >&2
+    return 127
+  fi
+}
 
 # ──[ Tmux ]────────────────────────────────────────────────────────
 
