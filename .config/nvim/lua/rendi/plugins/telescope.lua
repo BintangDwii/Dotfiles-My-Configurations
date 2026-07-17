@@ -50,8 +50,8 @@ local function progressive_files(opts)
   opts = vim.tbl_deep_extend("force", {
     cwd = vim.uv.cwd(),
     max_results = 800,
-    prompt_title = "Files (progressive)",
-    disable_devicons = true,
+    prompt_title = "Find Files",
+    disable_devicons = false,
   }, opts or {})
 
   local fd = vim.fn.exepath("fd")
@@ -61,7 +61,7 @@ local function progressive_files(opts)
       cwd = opts.cwd,
       hidden = true,
       follow = false,
-      disable_devicons = true,
+      disable_devicons = false,
     })
     return
   end
@@ -124,7 +124,7 @@ local function complete_files()
       cwd = git_root,
       show_untracked = true,
       recurse_submodules = false,
-      disable_devicons = true,
+      disable_devicons = false,
     })
     return
   end
@@ -133,7 +133,7 @@ local function complete_files()
     cwd = cwd,
     hidden = true,
     follow = false,
-    disable_devicons = true,
+    disable_devicons = false,
   })
 end
 
@@ -170,7 +170,7 @@ local function tabs_picker()
           return {
             value = tab,
             ordinal = string.format("%d %s", tab.index, tab.filename),
-            display = string.format("%s %d  %s", tab.current and "*" or " ", tab.index, tab.filename),
+            display = string.format("%s  %d  %s", tab.current and "󰄬" or " ", tab.index, tab.filename),
           }
         end,
       }),
@@ -294,29 +294,6 @@ return {
 
       telescope.setup({
         defaults = {
-          prompt_prefix = "> ",
-          selection_caret = "> ",
-
-          -- "smart" compares paths against each other and gets expensive.
-          path_display = { "truncate" },
-          color_devicons = false,
-
-          sorting_strategy = "ascending",
-          layout_strategy = "flex",
-          layout_config = {
-            horizontal = {
-              prompt_position = "top",
-              preview_width = 0.50,
-            },
-            vertical = {
-              mirror = true,
-              prompt_position = "top",
-            },
-            width = 0.90,
-            height = 0.82,
-            preview_cutoff = 120,
-          },
-
           -- Keep resume useful without retaining huge result sets in memory.
           cache_picker = {
             num_pickers = 2,
@@ -324,13 +301,13 @@ return {
             ignore_empty_prompt = true,
           },
 
-          -- Preview is constructed only when requested with <C-a> / p.
+          -- Keep the normal visible preview, with strict limits for large files.
           preview = {
-            hide_on_startup = true,
+            hide_on_startup = false,
             filesize_limit = 1,
             highlight_limit = 1,
             timeout = 100,
-            treesitter = false,
+            treesitter = true,
           },
 
           -- Let ripgrep/gitignore do filtering before Lua sees each result.
@@ -363,6 +340,13 @@ return {
 
           mappings = {
             i = {
+              ["<C-j>"] = actions.move_selection_next,
+              ["<C-k>"] = actions.move_selection_previous,
+              ["<C-v>"] = actions.select_vertical,
+              ["<C-x>"] = actions.select_horizontal,
+              ["<C-t>"] = actions.select_tab,
+              ["<Tab>"] = actions.toggle_selection + actions.move_selection_next,
+              ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_previous,
               ["<C-q>"] = send_to_qf_and_open_trouble,
               ["<C-s>"] = open_with_trouble,
               ["<C-a>"] = action_layout.toggle_preview,
@@ -372,6 +356,15 @@ return {
               ["?"] = actions.which_key,
             },
             n = {
+              ["j"] = actions.move_selection_next,
+              ["k"] = actions.move_selection_previous,
+              ["gg"] = actions.move_to_top,
+              ["G"] = actions.move_to_bottom,
+              ["v"] = actions.select_vertical,
+              ["x"] = actions.select_horizontal,
+              ["t"] = actions.select_tab,
+              ["<Tab>"] = actions.toggle_selection + actions.move_selection_next,
+              ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_previous,
               ["p"] = action_layout.toggle_preview,
               ["<C-q>"] = send_to_qf_and_open_trouble,
               ["<C-s>"] = open_with_trouble,
@@ -385,7 +378,7 @@ return {
             sort_mru = true,
             sort_lastused = true,
             ignore_current_buffer = true,
-            disable_devicons = true,
+            disable_devicons = false,
             mappings = {
               i = {
                 ["<C-x>"] = actions.delete_buffer,
@@ -398,18 +391,18 @@ return {
           find_files = {
             hidden = true,
             follow = false,
-            disable_devicons = true,
+            disable_devicons = false,
             find_command = fd_find_command,
           },
           git_files = {
             show_untracked = true,
-            disable_devicons = true,
+            disable_devicons = false,
           },
           live_grep = {
-            disable_devicons = true,
+            disable_devicons = false,
           },
           grep_string = {
-            disable_devicons = true,
+            disable_devicons = false,
           },
         },
 
@@ -423,9 +416,7 @@ return {
           ast_grep = {
             command = { "sg", "--json=stream" },
           },
-          ["ui-select"] = require("telescope.themes").get_dropdown({
-            previewer = false,
-          }),
+          ["ui-select"] = {},
         },
       })
 
@@ -442,12 +433,21 @@ return {
         "<leader>fB",
         function()
           local telescope = require("telescope")
+          local current_dir = vim.fn.expand("%:p:h")
+
+          if current_dir == "" then
+            current_dir = vim.uv.cwd()
+          end
+
           telescope.load_extension("file_browser")
           telescope.extensions.file_browser.file_browser({
             hidden = true,
             respect_gitignore = true,
             git_status = false,
-            previewer = false,
+            previewer = true,
+            path = current_dir,
+            cwd = current_dir,
+            grouped = true,
           })
         end,
         desc = "File browser",
@@ -493,7 +493,7 @@ return {
         enable_persistent_history = true,
         length_limit = 262144,
         continuous_sync = false,
-        preview = false,
+        preview = true,
         default_register = { '"', "+", "*" },
         enable_system_clipboard = true,
         keys = {
