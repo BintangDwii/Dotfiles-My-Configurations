@@ -107,7 +107,7 @@ soz && sec-tools
 - `$mod+c` — Flameshot screenshot GUI  
 - `Print` — Screenshot (maim)
 - `$mod+Shift+Escape` — Shutdown
-- **Polybar:** custom bar with workspace indicators, date/time (Indonesian locale), wifi SSID, uptime, system tray
+- **Polybar:** custom telemetry bar. See [`.config/polybar/README.md`](.config/polybar/README.md) for modules, click actions, profiles, dependencies, and maintenance.
 - **Wallpaper:** cycle through 10+ nature/landscape images (Ctrl+1..9)
 
 ---
