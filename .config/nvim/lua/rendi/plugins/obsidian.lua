@@ -16,215 +16,158 @@ return {
         name = "work",
         path = "~/vaults/work",
       },
-      picker = {
-        name = "telescope.nvim",
-      },
     },
 
-    mappings = {
-      -- Follow links / toggle checkboxes / heading folding.
-      ["<CR>"] = {
-        action = function()
-          return require("obsidian").util.smart_action()
-        end,
-        opts = {
-          buffer = true,
-          expr = true,
-        },
-      },
+    picker = {
+      name = "telescope.nvim",
+    },
 
-      -- Obsidian-aware gf.
-      ["gf"] = {
-        action = function()
-          return require("obsidian").util.gf_passthrough()
-        end,
-        opts = {
-          noremap = false,
-          expr = true,
-          buffer = true,
-        },
-      },
+    callbacks = {
+      enter_note = function(_, _)
+        local actions = require("obsidian.actions")
 
-      -- Toggle checkbox.
-      ["<leader>nc"] = {
-        action = function()
-          return require("obsidian").util.toggle_checkbox()
-        end,
-        opts = {
+        -- Core navigation
+        vim.keymap.set("n", "<CR>", actions.smart_action, {
           buffer = true,
-        },
-      },
+          desc = "Obsidian: smart action",
+        })
 
-      -- Previous / next Obsidian link.
-      ["[o"] = {
-        action = function()
-          return require("obsidian").util.nav_link(-1)
-        end,
-        opts = {
+        vim.keymap.set("n", "gf", "<cmd>Obsidian follow_link<CR>", {
           buffer = true,
-        },
-      },
+          desc = "Obsidian: follow link",
+        })
 
-      ["]o"] = {
-        action = function()
-          return require("obsidian").util.nav_link(1)
-        end,
-        opts = {
+        vim.keymap.set("n", "]o", function()
+          actions.nav_link("next")
+        end, {
           buffer = true,
-        },
-      },
+          desc = "Obsidian: next link",
+        })
+
+        vim.keymap.set("n", "[o", function()
+          actions.nav_link("prev")
+        end, {
+          buffer = true,
+          desc = "Obsidian: previous link",
+        })
+
+        -- Checkbox
+        vim.keymap.set("n", "<leader>nc", "<cmd>Obsidian toggle_checkbox<CR>", {
+          buffer = true,
+          desc = "Obsidian: toggle checkbox",
+        })
+
+        -- Note navigation
+        vim.keymap.set("n", "<leader>nb", "<cmd>Obsidian backlinks<CR>", {
+          buffer = true,
+          desc = "Obsidian: backlinks",
+        })
+
+        vim.keymap.set("n", "<leader>nl", "<cmd>Obsidian links<CR>", {
+          buffer = true,
+          desc = "Obsidian: links",
+        })
+
+        vim.keymap.set("n", "<leader>nt", "<cmd>Obsidian toc<CR>", {
+          buffer = true,
+          desc = "Obsidian: table of contents",
+        })
+
+        vim.keymap.set("n", "<leader>ng", "<cmd>Obsidian tags<CR>", {
+          buffer = true,
+          desc = "Obsidian: tags",
+        })
+
+        -- Note management
+        vim.keymap.set("n", "<leader>nr", "<cmd>Obsidian rename<CR>", {
+          buffer = true,
+          desc = "Obsidian: rename note",
+        })
+
+        vim.keymap.set("n", "<leader>nT", "<cmd>Obsidian template<CR>", {
+          buffer = true,
+          desc = "Obsidian: insert template",
+        })
+
+        -- Visual actions
+        vim.keymap.set("v", "<leader>nl", "<cmd>Obsidian link<CR>", {
+          buffer = true,
+          desc = "Obsidian: link selection",
+        })
+
+        vim.keymap.set("v", "<leader>nn", "<cmd>Obsidian link_new<CR>", {
+          buffer = true,
+          desc = "Obsidian: create linked note",
+        })
+
+        vim.keymap.set("v", "<leader>ne", "<cmd>Obsidian extract_note<CR>", {
+          buffer = true,
+          desc = "Obsidian: extract selection",
+        })
+      end,
     },
   },
 
   keys = {
-    -- Notes
+    -- These are global commands, so they don't need enter_note.
     {
       "<leader>nn",
       "<cmd>Obsidian new<CR>",
-      desc = "New note",
+      desc = "Obsidian: new note",
     },
 
     {
       "<leader>ns",
       "<cmd>Obsidian search<CR>",
-      desc = "Search notes",
+      desc = "Obsidian: search",
     },
 
     {
       "<leader>nq",
       "<cmd>Obsidian quick_switch<CR>",
-      desc = "Quick switch note",
+      desc = "Obsidian: quick switch",
     },
 
-    -- Daily notes
     {
       "<leader>nd",
       "<cmd>Obsidian today<CR>",
-      desc = "Today's note",
+      desc = "Obsidian: today's note",
     },
 
     {
       "<leader>ny",
       "<cmd>Obsidian yesterday<CR>",
-      desc = "Yesterday's note",
+      desc = "Obsidian: yesterday",
     },
 
     {
       "<leader>nY",
       "<cmd>Obsidian tomorrow<CR>",
-      desc = "Tomorrow's note",
+      desc = "Obsidian: tomorrow",
     },
 
-    {
-      "<leader>nD",
-      "<cmd>Obsidian dailies<CR>",
-      desc = "Browse daily notes",
-    },
-
-    -- Navigation / relationships
-    {
-      "<leader>nb",
-      "<cmd>Obsidian backlinks<CR>",
-      desc = "Backlinks",
-    },
-
-    {
-      "<leader>nl",
-      "<cmd>Obsidian links<CR>",
-      desc = "Links in note",
-    },
-
-    {
-      "<leader>ntc",
-      "<cmd>Obsidian toc<CR>",
-      desc = "Table of contents",
-    },
-
-    {
-      "<leader>ng",
-      "<cmd>Obsidian tags<CR>",
-      desc = "Browse tags",
-    },
-
-    {
-      "<leader>nf",
-      "<cmd>Obsidian footnotes<CR>",
-      desc = "Footnotes",
-    },
-
-    -- Note management
-    {
-      "<leader>nr",
-      "<cmd>Obsidian rename<CR>",
-      desc = "Rename note",
-    },
-
-    {
-      "<leader>nT",
-      "<cmd>Obsidian template<CR>",
-      desc = "Insert template",
-    },
-
-    {
-      "<leader>nN",
-      "<cmd>Obsidian new_from_template<CR>",
-      desc = "New note from template",
-    },
-
-    -- Obsidian application
-    {
-      "<leader>no",
-      "<cmd>Obsidian open<CR>",
-      desc = "Open in Obsidian",
-    },
-
-    -- Workspace
     {
       "<leader>nw",
       "<cmd>Obsidian workspace<CR>",
-      desc = "Switch workspace",
+      desc = "Obsidian: workspace",
     },
 
-    -- Images
+    {
+      "<leader>no",
+      "<cmd>Obsidian open<CR>",
+      desc = "Obsidian: open in app",
+    },
+
     {
       "<leader>ni",
       "<cmd>Obsidian paste_img<CR>",
-      desc = "Paste image",
+      desc = "Obsidian: paste image",
     },
 
-    -- Diagnostics / setup
     {
       "<leader>nC",
       "<cmd>Obsidian check<CR>",
-      desc = "Check Obsidian setup",
-    },
-
-    {
-      "<leader>nh",
-      "<cmd>Obsidian help<CR>",
-      desc = "Obsidian help",
-    },
-
-    -- Visual-mode knowledge extraction
-    {
-      "<leader>ne",
-      "<cmd>Obsidian extract_note<CR>",
-      mode = "v",
-      desc = "Extract selection to note",
-    },
-
-    {
-      "<leader>nn",
-      "<cmd>Obsidian link_new<CR>",
-      mode = "v",
-      desc = "Create note from selection",
-    },
-
-    {
-      "<leader>nl",
-      "<cmd>Obsidian link<CR>",
-      mode = "v",
-      desc = "Link selection",
+      desc = "Obsidian: check setup",
     },
   },
 }
