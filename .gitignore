@@ -1,0 +1,23 @@
+# Shell and editor runtime state
+*.swp
+*.swo
+*~
+*.bak
+*.zwc
+.bash_history
+.zsh_history
+.zhistory
+
+# Generated caches and sessions
+.cache/
+.local/state/
+.config/nvim/session_control.json
+.config/nvim/sessions/
+.config/nvim/.luarc.json
+
+# Local machine overrides and secrets
+*.local.*
+*.secret
+.env
+.env.*
+!.env.example

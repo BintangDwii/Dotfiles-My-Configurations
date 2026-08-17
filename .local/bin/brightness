@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Usage: brightness.sh up|down|reset|status
+# Usage: brightness up|down|reset|status
 
 STEP=0.10
 MIN=0.1

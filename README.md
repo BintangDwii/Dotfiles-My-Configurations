@@ -8,7 +8,7 @@ Welcome! These dotfiles are crafted for a highly efficient, distraction-free dev
 - **zsh** — Powerlevel10k prompt, fzf-tab completion, zoxide navigation, 286-entry aliases file
 - **Neovim** — LazyVim-based IDE with 40+ plugins (LSP, DAP, Telescope, Treesitter)
 - **tmux** — Custom prefix (C-s), vim-aware navigation, resurrect/continuum, cht.sh integration
-- **polybar, picom, rofi, btop** — Desktop experience
+- **polybar, picom, rofi, btop, bat, zathura, flameshot** — Desktop experience
 - **~/.aliases** — 286 shell functions/aliases across 27 categories (text surgery, git, docker, network, security, crypto, binary analysis, etc.)
 
 ---
@@ -54,10 +54,17 @@ After setup, run `sec-tools` to install nmap, whois, socat, httpie, exiftool, sq
 ### 2. Clone and Install Dotfiles
 
 ```bash
-git clone https://github.com/rendivs925/Dotfiles.git
+git clone --recurse-submodules https://github.com/rendivs925/Dotfiles.git
 cd Dotfiles
-stow .
+stow --target="$HOME" .
+dotfiles-audit
 ```
+
+`stow .` links only deployable files. `.stowrc` disables directory folding so applications cannot accidentally write unrelated files into this repository, while `.stow-local-ignore` excludes documentation and screenshots. On an existing machine, resolve any reported file conflicts before stowing; do not use `--adopt` until the live and repository versions have been compared.
+
+The tracked migration set includes Bash and zsh startup files, Powerlevel10k, tmux, i3, Alacritty, Neovim, Polybar, picom, rofi, deadd, bat, btop, Flameshot, Git defaults, Zathura, wallpapers, helper scripts, and plugin submodules. Histories, caches, Neovim sessions, credentials, application databases, and machine-generated state are intentionally excluded.
+
+Run `dotfiles-audit` after changing configuration. It reports required files that are untracked, live files that drifted from the repository, and uninitialized submodules.
 
 ---
 
@@ -115,7 +122,7 @@ soz && sec-tools
 ### Alacritty
 
 - Font: JetBrains Mono 12pt
-- Opacity: 0.8
+- Opacity: 1.0
 - `Alt+p` — Paste
 - `Alt+c` — Copy
 - `Alt+h/j/k/l` — Send arrows (for tmux/vim navigation)  
@@ -197,8 +204,8 @@ nq                   # nvim ~/.config/qutebrowser/config.py
 nb                   # nvim ~/.bashrc
 nx                   # nvim ~/.xinitrc
 np                   # nvim ~/.config/picom/picom.conf
-npo                  # nvim ~/.config/polybar/config
-nro                  # nvim ~/.config/rofi/config.rasi
+npo                  # nvim ~/.config/polybar/config.ini
+nro                  # nvim ~/.config/rofi/aura-dark.rasi
 nla                  # nvim ~/.config/lazygit/config.yml
 ```
 

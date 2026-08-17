@@ -175,8 +175,8 @@ alias nt="nvim ~/.tmux.conf"
 alias nb="nvim ~/.bashrc"
 alias nx="nvim ~/.xinitrc"
 alias nali="nvim ~/.aliases"
-alias npo="nvim ~/.config/polybar/config"
-alias nro="nvim ~/.config/rofi/config.rasi"
+alias npo="nvim ~/.config/polybar/config.ini"
+alias nro="nvim ~/.config/rofi/aura-dark.rasi"
 alias nla="nvim ~/.config/lazygit/config.yml"
 
 # ──[ Shell Reload ]────────────────────────────────────────────────

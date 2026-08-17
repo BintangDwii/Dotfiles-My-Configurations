@@ -6,7 +6,7 @@ set $mod Mod1
 floating_modifier $mod
 
 # Font configuration
-font pango:"JetBrains Mono" 12
+font pango:"Noto Sans" 12
 # font pango:"Hack Nerd Font" 10
 
 # Client color configurations
@@ -48,6 +48,10 @@ exec --no-startup-id ~/.config/i3/scripts/early-init.sh
 # Workspace-output mapping managed by `dual_monitor` zsh function
 # By default all workspaces on internal display
 
+# Display profiles: Alt+Shift+F1 maximizes smoothness; Alt+Shift+F2 reduces heat and battery use.
+bindsym $mod+Shift+F1 exec --no-startup-id ~/.config/i3/scripts/display-profile.sh performance
+bindsym $mod+Shift+F2 exec --no-startup-id ~/.config/i3/scripts/display-profile.sh battery
+
 # left click 
 bindsym Mod4+Return exec --no-startup-id ~/.config/i3/scripts/left_click_and_stop.sh
 
@@ -60,21 +64,33 @@ exec --no-startup-id dex --autostart --environment i3
 exec_always --no-startup-id ~/.config/deadd/deadd-launch.sh
 
 # Screenshot command
-bindsym Print exec --no-startup-id maim --format=png "/home/$USER/Pictures/screenshot-$(date -u +'%Y%m%d-%H%M%SZ')-all.png"
+bindsym Print exec --no-startup-id maim --format=png "$HOME/Pictures/screenshot-$(date -u +'%Y%m%d-%H%M%SZ')-all.png"
 
 # Set default wallpaper on startup (re-apply on i3 restart for monitor changes)
-exec_always --no-startup-id feh --bg-scale ~/Downloads/Images/yosemite-wallpaper-3840x2160-apple-181.jpg
+exec_always --no-startup-id feh --bg-scale ~/.config/i3/images/cyberpunk.jpg
 
-# Wallpapers bindings
-bindsym ctrl+1 exec --no-startup-id feh --bg-scale ~/Downloads/vashishtha-jogi-bClr95glx6k-unsplash.jpg 
-bindsym ctrl+2 exec --no-startup-id feh --bg-scale ~/Downloads/forest-wallpaper-3840x2160-mist-fog-5726.jpg
-bindsym ctrl+3 exec --no-startup-id feh --bg-scale ~/Downloads/Images/wp11976330-interstellar-black-hole-wallpapers.jpg 
-bindsym ctrl+4 exec --no-startup-id feh --bg-scale ~/Downloads/Images/stars-1761153480430-1570.jpg  
-bindsym ctrl+5 exec --no-startup-id feh --bg-scale ~/Downloads/Images/themilkywaygalaxy-1761153409478-2067.jpg  
-bindsym ctrl+6 exec --no-startup-id feh --bg-scale ~/Downloads/Images/wolf-on-rock-in-the-forest_3840x2160_xtrafondos.com.jpg  
-bindsym ctrl+7 exec --no-startup-id feh --bg-scale ~/Downloads/Images/yosemite-wallpaper-3840x2160-apple-181.jpg  
-bindsym ctrl+8 exec --no-startup-id feh --bg-scale ~/Downloads/Images/yosemite-wallpaper-3840x2160-8k-scenery-serene-wilderness-3955.jpg 
-bindsym ctrl+9 exec --no-startup-id feh --bg-scale ~/Downloads/Images/wp11976290-interstellar-black-hole-wallpapers.jpg 
+# Workspaces 1-5 use the external display; 6-10 use the laptop display.
+workspace 1 output HDMI-1-0
+workspace 2 output HDMI-1-0
+workspace 3 output HDMI-1-0
+workspace 4 output HDMI-1-0
+workspace 5 output HDMI-1-0
+workspace 6 output eDP
+workspace 7 output eDP
+workspace 8 output eDP
+workspace 9 output eDP
+workspace 10 output eDP
+
+# Wallpapers are stored with the i3 config so every binding survives migration.
+bindsym ctrl+1 exec --no-startup-id feh --bg-scale ~/.config/i3/images/cyberpunk.jpg
+bindsym ctrl+2 exec --no-startup-id feh --bg-scale ~/.config/i3/images/lake-louise-banff-5120x3200-15827.jpg
+bindsym ctrl+3 exec --no-startup-id feh --bg-scale ~/.config/i3/images/lake-louise-winter-5120x2880-19913.jpg
+bindsym ctrl+4 exec --no-startup-id feh --bg-scale ~/.config/i3/images/moraine-lake-banff-national-park-valley-of-the-ten-peaks-6000x3376-4828.jpg
+bindsym ctrl+5 exec --no-startup-id feh --bg-scale ~/.config/i3/images/moraine-lake-canada-reflection-landscape-snow-covered-5120x3200-3933.jpg
+bindsym ctrl+6 exec --no-startup-id feh --bg-scale ~/.config/i3/images/switzerland-3840x2160-4k-5k-wallpaper-alps-mountains-stars-night-5713.jpg
+bindsym ctrl+7 exec --no-startup-id feh --bg-scale ~/.config/i3/images/switzerland-3840x2160-4k-hd-wallpaper-river-mountains-rocks-5706.jpg
+bindsym ctrl+8 exec --no-startup-id feh --bg-scale ~/.config/i3/images/switzerland-3840x2160-5k-4k-wallpaper-8k-hd-mountains-sunset-hills-5303.jpg
+bindsym ctrl+9 exec --no-startup-id feh --bg-scale ~/.config/i3/images/cyberpunk.jpg
 
 # Shutdown the system with $mod+Escape
 # bindsym $mod+Shift+Escape exec --no-startup-id shutdown now
@@ -85,7 +101,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 # Run picom 
-exec --no-startup-id picom --backend glx
+exec --no-startup-id picom
 exec --no-startup-id flameshot
 
 for_window [class="fzf-filebrowser"] \
@@ -101,10 +117,10 @@ bindsym $mod+a exec --no-startup-id signal-desktop
 bindsym $mod+c exec --no-startup-id flameshot gui
 bindsym $mod+z exec zathura
 bindsym $mod+q kill
-bindsym $mod+b exec --no-startup-id google-chrome-stable
+bindsym $mod+b exec --no-startup-id firefox
 bindsym $mod+e exec --no-startup-id alacritty -e yazi
 for_window [instance="crx_gdfaincndogidkdcdkhapmbffkckdkhn"] floating enable, resize set 2800 1600, move position center
-bindsym $mod+g exec --no-startup-id google-chrome-stable --app-id=gdfaincndogidkdcdkhapmbffkckdkhn
+# bindsym $mod+g exec --no-startup-id google-chrome-stable --app-id=gdfaincndogidkdcdkhapmbffkckdkhn
 bindsym $mod+n exec --no-startup-id deadd-notification-center --toggle-panel
 
 exec --no-startup-id clipmenud
@@ -207,7 +223,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
 
-exec --no-startup-id qvm-start-gui --all --watch
+exec --no-startup-id sh -c 'command -v qvm-start-gui >/dev/null && exec qvm-start-gui --all --watch'
 
 # Toggle polybar visibility
 bindsym $mod+Shift+p exec --no-startup-id polybar-msg cmd toggle

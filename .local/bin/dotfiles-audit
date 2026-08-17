@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+repo=${DOTFILES_DIR:-$HOME/Dotfiles}
+required=(
+    .aliases
+    .bashrc
+    .bash_profile
+    .bash_logout
+    .gitconfig
+    .p10k.zsh
+    .tmux.conf
+    .xinitrc
+    .Xresources
+    .zshrc
+    .config/alacritty/alacritty.toml
+    .config/bat/config
+    .config/bat/themes/tokyonight_night.tmTheme
+    .config/btop/btop.conf
+    .config/deadd/deadd.yml
+    .config/flameshot/flameshot.ini
+    .config/git/ignore
+    .config/i3/config
+    .config/nvim/init.lua
+    .config/picom/picom.conf
+    .config/polybar/config.ini
+    .config/polybar/display-profile.sh
+    .config/rofi/aura-dark.rasi
+    .config/zathura/zathurarc
+    .local/bin/brightness
+    .local/bin/dotfiles-audit
+)
+
+errors=0
+for relative in "${required[@]}"; do
+    repository_file="$repo/$relative"
+    live_file="$HOME/$relative"
+
+    if ! git -C "$repo" ls-files --error-unmatch -- "$relative" >/dev/null 2>&1; then
+        printf 'NOT TRACKED  ~/%s\n' "$relative"
+        errors=$((errors + 1))
+        continue
+    fi
+
+    if [[ ! -e "$live_file" ]]; then
+        printf 'NOT STOWED   ~/%s\n' "$relative"
+        errors=$((errors + 1))
+    elif [[ $(realpath -e "$live_file") != $(realpath -e "$repository_file") ]] && ! cmp -s "$live_file" "$repository_file"; then
+        printf 'LIVE DRIFT   ~/%s\n' "$relative"
+        errors=$((errors + 1))
+    fi
+done
+
+submodule_status=$(git -C "$repo" submodule status --recursive 2>/dev/null) || submodule_status=invalid
+if [[ $submodule_status == invalid ]] || grep -Eq '^[-+U]' <<< "$submodule_status"; then
+    printf 'SUBMODULES   run: git submodule update --init --recursive\n'
+    errors=$((errors + 1))
+fi
+
+if (( errors > 0 )); then
+    printf '\nDotfiles audit found %d issue(s).\n' "$errors"
+    exit 1
+fi
+
+printf 'All required configs are tracked; existing live files match the repository.\n'

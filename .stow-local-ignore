@@ -1,0 +1,12 @@
+\.git
+\.gitignore
+\.gitmodules
+\.gitattributes
+^/\.stow-local-ignore$
+^/\.stowrc$
+^/LICENSE$
+^/README\.md$
+^/images$
+^/\.config/polybar/README\.md$
+.*\.zwc
+^/\.config/zsh/themes/powerlevel10k/gitstatus/(obj|logs|locks|usrbin)($|/)

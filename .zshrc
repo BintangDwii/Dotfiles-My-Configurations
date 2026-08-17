@@ -63,15 +63,15 @@ export SUDO_EDITOR="nvim"
 export EDITOR="nvim"
 export VISUAL="nvim"
 export MAKEFLAGS="-j$(nproc)"
-export PYTHONPATH="/home/rendi/Downloads/pwndbg-2024.08.29/.venv/lib/python3.13/site-packages"
+export PYTHONPATH="$HOME/Downloads/pwndbg-2024.08.29/.venv/lib/python3.13/site-packages"
 export ANDROID_HOME=/opt/android-sdk
 export ANDROID_SDK_ROOT=/opt/android-sdk
 export ANDROID_NDK_HOME=/opt/android-ndk
-export PERL5LIB="/home/rendi/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
-export PERL_LOCAL_LIB_ROOT="/home/rendi/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
-export PERL_MB_OPT="--install_base \"/home/rendi/perl5\""
-export PERL_MM_OPT="INSTALL_BASE=/home/rendi/perl5"
-export PHP_INI_SCAN_DIR="/home/rendi/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+export PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_MB_OPT="--install_base \"$HOME/perl5\""
+export PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"
+export PHP_INI_SCAN_DIR="$HOME/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 
 # Keep C-s available for tmux prefix/QMK macros instead of terminal flow control.
 if [[ -t 0 ]]; then
@@ -80,10 +80,10 @@ fi
 
 typeset -U path
 path=(
-  /home/rendi/.opencode/bin
+  $HOME/.opencode/bin
   $HOME/.local/bin
   $HOME/.config/herd-lite/bin
-  /home/rendi/perl5/bin
+  $HOME/perl5/bin
   $HOME/.espressif/xtensa-esp32-elf/bin
   $HOME/.espressif/tools/xtensa-esp-elf/bin
   $JAVA_HOME/bin
@@ -128,7 +128,7 @@ bindkey '^[a' fzf_alias_widget
 zsh-defer eval "$(zoxide init zsh)"
 
 # ──[ Suggestions & Syntax Highlighting ]───────────────────────────────────────
-zsh-defer source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+zsh-defer source ~/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 zsh-defer -c 'bindkey -M emacs "^ " autosuggest-accept; bindkey -M viins "^ " autosuggest-accept; bindkey -M emacs "^[f" forward-word; bindkey -M viins "^[f" forward-word'
 zsh-defer source ~/.config/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

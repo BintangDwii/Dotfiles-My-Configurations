@@ -1,3 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-uptime -p | sed 's/up/UP/' | sed 's/,/ /'
+output=$(uptime -p)
+printf '%%{F#47FF9C}UP%%{F-}%s\n' "${output#up}"
