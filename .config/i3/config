@@ -44,9 +44,10 @@ bindsym Mod4+Shift+j exec --no-startup-id xdotool mousemove_relative -- 0 100
 
 exec_always --no-startup-id sh -c 'killall i3-auto-layout 2>/dev/null; i3-auto-layout'
 exec --no-startup-id ~/.config/i3/scripts/early-init.sh
+exec_always --no-startup-id ~/.config/i3/scripts/apply-display-layout.sh
 
-# Workspace-output mapping managed by `dual_monitor` zsh function
-# By default all workspaces on internal display
+# Workspace-output mapping: HDMI-1 is the primary/left display, eDP-1 sits at the lower-right.
+# Workspace 1 is pinned to eDP-1; workspaces 2-10 live on HDMI-1.
 
 # Display profiles: Alt+Shift+F1 maximizes smoothness; Alt+Shift+F2 reduces heat and battery use.
 bindsym $mod+Shift+F1 exec --no-startup-id ~/.config/i3/scripts/display-profile.sh performance
@@ -69,17 +70,22 @@ bindsym Print exec --no-startup-id maim --format=png "$HOME/Pictures/screenshot-
 # Set default wallpaper on startup (re-apply on i3 restart for monitor changes)
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/images/cyberpunk.jpg
 
-# Workspaces 1-5 use the external display; 6-10 use the laptop display.
-workspace 1 output HDMI-1-0
-workspace 2 output HDMI-1-0
-workspace 3 output HDMI-1-0
-workspace 4 output HDMI-1-0
-workspace 5 output HDMI-1-0
-workspace 6 output eDP
-workspace 7 output eDP
-workspace 8 output eDP
-workspace 9 output eDP
-workspace 10 output eDP
+# Workspace 1 stays on eDP-1. Workspaces 2-10 live on HDMI-1.
+workspace 1 output eDP-1
+workspace 3 output HDMI-1
+workspace 4 output HDMI-1
+workspace 5 output HDMI-1
+workspace 6 output HDMI-1
+workspace 7 output HDMI-1
+workspace 8 output HDMI-1
+workspace 9 output HDMI-1
+workspace 10 output HDMI-1
+
+# Assigned last so i3 starts focused on the HDMI main workspace.
+workspace 2 output HDMI-1
+
+# Keep the HDMI workspace focused on startup and reload (output is set by the assignment above).
+exec_always --no-startup-id i3-msg 'workspace number 2'
 
 # Wallpapers are stored with the i3 config so every binding survives migration.
 bindsym ctrl+1 exec --no-startup-id feh --bg-scale ~/.config/i3/images/cyberpunk.jpg
@@ -182,19 +188,19 @@ gaps outer 5
 
 smart_gaps on
 
-# Workspace definitions
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
+# Workspace definitions (numeric, used with `workspace number`)
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+set $ws10 10
 
-# Workspace bindings
+# Workspace bindings (output placement comes from the workspace assignments above)
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
 bindsym $mod+3 workspace number $ws3

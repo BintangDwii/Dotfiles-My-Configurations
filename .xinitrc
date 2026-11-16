@@ -17,4 +17,7 @@ export XDG_PICTURES_DIR=$HOME/Pictures
 systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
 dbus-update-activation-environment --systemd DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
 
+# Apply monitor layout before i3 starts so workspaces and wallpaper use the final geometry
+~/.config/i3/scripts/apply-display-layout.sh
+
 exec i3
