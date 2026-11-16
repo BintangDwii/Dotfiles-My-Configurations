@@ -22,7 +22,11 @@ vim.fn.mkdir(lazypath .. "/doc", "p")
 
 require("lazy").setup({
   { import = "rendi.plugins" },
-  { import = "rendi.plugins.lsp" },
+  { import = "rendi.plugins.ui" },
+  { import = "rendi.plugins.editor" },
+  { import = "rendi.plugins.tools" },
+  { import = "rendi.plugins.lang" },
+  { import = "rendi.plugins.git" },
 }, {
   checker = {
     enabled = false,

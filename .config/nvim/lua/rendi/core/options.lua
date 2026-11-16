@@ -14,6 +14,7 @@ opt.relativenumber = true
 opt.number = true
 opt.guicursor = ""
 opt.mouse = "a"
+opt.mousemodel = "extend"
 
 -- Indentation
 opt.autoindent = true

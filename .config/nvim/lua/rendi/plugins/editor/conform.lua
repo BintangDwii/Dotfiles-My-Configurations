@@ -31,11 +31,6 @@ return {
         prettier = {
           stop_after_first = true,
         },
-        leptosfmt = {
-          command = "leptosfmt",
-          args = { "--stdin", "--rustfmt" },
-          stdin = true,
-        },
       },
       format_on_save = {
         lsp_format = "fallback",

@@ -2,13 +2,11 @@
 
 Comment Management Keymaps
 
-<leader>ddc   Remove all '--' comments (confirm each)
-<leader>dhc   Remove all '#' comments (confirm each)
-<leader>drc   Remove all '//' comments (confirm each)
-<leader>dac   Remove all ';' comments (confirm each)
-<leader>dhhc  Remove all HTML comments <!-- --> (confirm each)
-<leader>dccc  Remove all CSS comments /* */ (confirm each)
-<leader>dcl   Collapse 3+ blank lines into 2 (confirm each)
-<leader>sc    Search all comment styles
-
-
+<leader>qh   Remove HTML comments <!-- --> (confirm each)
+<leader>qc   Remove CSS comments /* */ (confirm each)
+<leader>q-   Remove all '--' comments (confirm each)
+<leader>q;   Remove all ';' comments (confirm each)
+<leader>q/   Remove all '//' comments (confirm each)
+<leader>q#   Remove all '#' comments (confirm each)
+<leader>qb   Collapse 3+ blank lines into 2 (confirm each)
+<leader>qs   Search all comment styles

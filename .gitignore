@@ -21,3 +21,8 @@
 .env
 .env.*
 !.env.example
+
+# Project artifacts and personal data
+images/
+*.pdf
+*.log

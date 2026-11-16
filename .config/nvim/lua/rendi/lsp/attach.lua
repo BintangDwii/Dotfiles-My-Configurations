@@ -72,39 +72,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
   end,
 })
-
-vim.lsp.inlay_hint.enable(true)
-
--- Treesitter must outrank semantic tokens, otherwise rust-analyzer
--- wipes out rstml/leptos highlighting once the workspace loads.
-vim.highlight.priorities.treesitter = 150
-
-vim.api.nvim_create_user_command("LspInfo", function()
-  vim.cmd("checkhealth vim.lsp")
-end, { desc = "Show LSP diagnostics" })
-
-local severity = vim.diagnostic.severity
-local c = require("rendi.core.palette")
-
-vim.diagnostic.config({
-  virtual_text = { prefix = "●", spacing = 4 },
-  signs = {
-    text = {
-      [severity.ERROR] = " ",
-      [severity.WARN] = " ",
-      [severity.HINT] = "󰠠 ",
-      [severity.INFO] = " ",
-    },
-  },
-  update_in_insert = false,
-  underline = true,
-  severity_sort = true,
-  float = {
-    border = "rounded",
-    source = true,
-    header = "",
-    prefix = "",
-  },
-})
-
-vim.api.nvim_set_hl(0, "DiagnosticFloatBorder", { fg = c.border })

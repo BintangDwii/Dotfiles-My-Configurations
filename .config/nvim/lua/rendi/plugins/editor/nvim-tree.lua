@@ -1,6 +1,22 @@
 return {
   "nvim-tree/nvim-tree.lua",
   dependencies = "nvim-tree/nvim-web-devicons",
+  init = function()
+    vim.api.nvim_create_autocmd("VimEnter", {
+      once = true,
+      callback = function()
+        local args = vim.fn.argv()
+        if #args > 0 and vim.fn.isdirectory(args[1]) ~= 1 then
+          return
+        end
+
+        require("lazy").load({ plugins = { "nvim-tree.lua" } })
+        vim.defer_fn(function()
+          require("rendi.tree").open()
+        end, 50)
+      end,
+    })
+  end,
   keys = {
     { "<leader>ee", "<cmd>NvimTreeToggle<CR>", desc = "Toggle file explorer" },
     { "<leader>ef", "<cmd>NvimTreeFindFileToggle<CR>", desc = "Toggle file explorer on current file" },
@@ -8,7 +24,23 @@ return {
     { "<leader>er", "<cmd>NvimTreeRefresh<CR>", desc = "Refresh file explorer" },
   },
   config = function()
+    local function on_attach(bufnr)
+      local api = require("rendi.tree").api()
+      api.map.on_attach.default(bufnr)
+
+      local function opts(desc)
+        return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+      end
+
+      vim.keymap.set("n", "<RightMouse>", function()
+        require("rendi.tree.actions").open_menu()
+      end, opts("Actions menu"))
+
+      pcall(vim.keymap.del, "n", "<2-RightMouse>", { buffer = bufnr })
+    end
+
     require("nvim-tree").setup({
+      on_attach = on_attach,
       view = {
         width = 35,
         relativenumber = true,

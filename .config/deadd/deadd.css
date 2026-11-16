@@ -1,7 +1,7 @@
 /* DEADD NOTIFICATION CENTER - Premium Dark
    Glassmorphism - Typography - Micro-interactions */
 
-/* ── Base / Global ─────────────────────────── */
+/* -- Base / Global --------------------------- */
 * {
     font-family: "SF Pro Display", "Inter", "System-ui", sans-serif;
 }
@@ -11,7 +11,7 @@
     border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* ── Notification Center Header (time / date) ─ */
+/* -- Notification Center Header (time / date) - */
 .noti-center.time {
     font-size: 72px;
     font-weight: 200;
@@ -22,14 +22,13 @@
 
 .noti-center.date {
     font-size: 20px;
-    font-weight: 450;
+    font-weight: 500;
     color: rgba(33, 73, 105, 0.85);
     letter-spacing: 0.3px;
-    text-transform: uppercase;
     margin-bottom: 28px;
 }
 
-/* ── Notification Popup ────────────────────── */
+/* -- Notification Popup ---------------------- */
 .notification.content {
     margin-left: 30px;
     margin-right: 30px;
@@ -55,9 +54,9 @@
         inset 0 1px 0 rgba(255, 70, 70, 0.12);
 }
 
-/* ── Notification Typography ───────────────── */
+/* -- Notification Typography ----------------- */
 .title {
-    font-weight: 590;
+    font-weight: 600;
     font-size: 26px;
     color: rgba(230, 240, 250, 0.95);
     letter-spacing: -0.2px;
@@ -66,7 +65,7 @@
 
 .appname {
     font-size: 18px;
-    font-weight: 480;
+    font-weight: 500;
     color: #0FC5ED;
     letter-spacing: 0.2px;
     margin-bottom: 1px;
@@ -77,7 +76,6 @@
     font-size: 20px;
     font-weight: 400;
     color: rgba(203, 224, 240, 0.82);
-    line-height: 1.4;
     margin-top: 10px;
 }
 
@@ -88,7 +86,7 @@
     letter-spacing: 0.2px;
 }
 
-/* ── Notifications in Notification Center ──── */
+/* -- Notifications in Notification Center ---- */
 .notificationInCenter {
     background: rgba(14, 32, 52, 0.55);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -114,7 +112,7 @@
     border-color: rgba(255, 70, 70, 0.35);
 }
 
-/* ── Labels ──────────────────────────────────── */
+/* -- Labels ------------------------------------ */
 label {
     color: rgba(203, 224, 240, 0.85);
 }
@@ -131,7 +129,7 @@ label.critical {
     color: #FF6B6B;
 }
 
-/* ── Progress Bar ──────────────────────────── */
+/* -- Progress Bar ---------------------------- */
 progressbar {
     border-radius: 8px;
     background: rgba(33, 73, 105, 0.35);
@@ -144,7 +142,7 @@ progressbar progress {
     border: none;
 }
 
-/* ── Buttons (Generic) ────────────────────── */
+/* -- Buttons (Generic) ---------------------- */
 button {
     background: rgba(33, 73, 105, 0.35);
     color: rgba(203, 224, 240, 0.85);
@@ -152,7 +150,7 @@ button {
     border: none;
     padding: 10px 22px;
     font-size: 19px;
-    font-weight: 480;
+    font-weight: 500;
     transition: all 150ms cubic-bezier(0.22, 1, 0.36, 1);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
@@ -163,14 +161,14 @@ button:hover {
     box-shadow: 0 2px 8px rgba(15, 197, 237, 0.12);
 }
 
-/* ── Action Buttons (on notifications) ────── */
+/* -- Action Buttons (on notifications) ------ */
 button.actionbutton {
     background: rgba(15, 197, 237, 0.15);
     color: #0FC5ED;
     border-radius: 10px;
     padding: 8px 16px;
     font-size: 17px;
-    font-weight: 490;
+    font-weight: 500;
 }
 
 button.actionbutton:hover {
@@ -178,7 +176,7 @@ button.actionbutton:hover {
     color: #fff;
 }
 
-/* ── Close Button ──────────────────────────── */
+/* -- Close Button ---------------------------- */
 button.button-close {
     background: transparent;
     color: rgba(33, 73, 105, 0.5);
@@ -194,7 +192,7 @@ button.button-close:hover {
     color: #FF6B6B;
 }
 
-/* ── Custom Buttons (User Buttons) ────────── */
+/* -- Custom Buttons (User Buttons) ---------- */
 .userbutton {
     background: rgba(33, 73, 105, 0.4);
     border-radius: 16px;
@@ -205,7 +203,7 @@ button.button-close:hover {
 .userbuttonlabel {
     color: rgba(203, 224, 240, 0.8);
     font-size: 17px;
-    font-weight: 480;
+    font-weight: 500;
 }
 
 .userbutton:hover {
@@ -245,7 +243,7 @@ button.buttonState2:hover {
     background: rgba(162, 119, 255, 0.4);
 }
 
-/* ── Images ──────────────────────────────────── */
+/* -- Images ------------------------------------ */
 image.deadd-noti-center.notification.image {
     margin-left: 20px;
     border-radius: 14px;
@@ -255,11 +253,11 @@ image.deadd-noti-center.notification.icon {
     border-radius: 12px;
 }
 
-/* ── Delete All ──────────────────────────────── */
+/* -- Delete All -------------------------------- */
 label.delete-all {
     color: rgba(255, 107, 107, 0.7);
     font-size: 17px;
-    font-weight: 450;
+    font-weight: 500;
     transition: all 150ms ease;
 }
 
@@ -267,7 +265,7 @@ label.delete-all:hover {
     color: #FF6B6B;
 }
 
-/* ── Scrollbar ───────────────────────────────── */
+/* -- Scrollbar --------------------------------- */
 scrollbar {
     background: transparent;
     border: none;
@@ -285,7 +283,7 @@ scrollbar slider:hover {
     background: rgba(15, 197, 237, 0.4);
 }
 
-/* ── Entry / Input ───────────────────────── */
+/* -- Entry / Input ------------------------- */
 entry {
     background: rgba(33, 73, 105, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.06);

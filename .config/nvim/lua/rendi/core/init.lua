@@ -1,3 +1,6 @@
+pcall(vim.cmd, "aunmenu PopUp")
+pcall(vim.api.nvim_clear_autocmds, { group = "nvim.popupmenu" })
+
 require("rendi.core.options")
 require("rendi.core.keymaps")
 require("rendi.core.autocmds")

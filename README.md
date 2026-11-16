@@ -6,16 +6,16 @@ Welcome! These dotfiles are crafted for a highly efficient, distraction-free dev
 - **i3** — Window manager with polybar, rofi launcher, picom compositor
 - **Alacritty** — GPU-accelerated terminal with Josean Martinez dark theme
 - **zsh** — Powerlevel10k prompt, fzf-tab completion, zoxide navigation, 286-entry aliases file
-- **Neovim** — LazyVim-based IDE with 40+ plugins (LSP, DAP, Telescope, Treesitter)
+- **Neovim** — custom IDE built on lazy.nvim with 70 plugins (LSP, Telescope, Treesitter)
 - **tmux** — Custom prefix (C-s), vim-aware navigation, resurrect/continuum, cht.sh integration
 - **polybar, picom, rofi, btop, bat, zathura, flameshot** — Desktop experience
 - **~/.aliases** — 286 shell functions/aliases across 27 categories (text surgery, git, docker, network, security, crypto, binary analysis, etc.)
 
 ---
 
-![Neovim Fullscreen](images/neovim-fullscreen.png)
-![Terminal Browser](images/terminal-browser.png)
-![Floating Window Demo](images/floating-window-demo.png)
+![Neovim Fullscreen](docs/assets/neovim-fullscreen.png)
+![Terminal Browser](docs/assets/terminal-browser.png)
+![Floating Window Demo](docs/assets/floating-window-demo.png)
 
 ---
 
@@ -54,7 +54,7 @@ After setup, run `sec-tools` to install nmap, whois, socat, httpie, exiftool, sq
 ### 2. Clone and Install Dotfiles
 
 ```bash
-git clone --recurse-submodules https://github.com/rendivs925/Dotfiles.git
+git clone --recurse-submodules https://github.com/BintangDwii/Dotfiles-My-Configurations.git
 cd Dotfiles
 stow --target="$HOME" .
 dotfiles-audit
@@ -76,7 +76,7 @@ chsh -s $(which zsh)
 
 ---
 
-### 4. Launch Neovim (LazyVim will auto-setup on first run)
+### 4. Launch Neovim (lazy.nvim will auto-setup on first run)
 
 ```bash
 nvim
@@ -99,7 +99,7 @@ soz && sec-tools
 
 - `$mod` = Alt
 - `$mod+Return` — Alacritty terminal
-- `$mod+d` — rofi app launcher  
+- `$mod+d` — rofi app launcher
 - `$mod+y` — rofi clipboard manager (clipmenu)
 - `$mod+e` — yazi file manager in Alacritty (floating)
 - `$mod+b` — Google Chrome
@@ -111,7 +111,7 @@ soz && sec-tools
 - `$mod+Shift+space` — Toggle floating
 - `$mod+1..0` — Switch workspace
 - `$mod+Shift+1..0` — Move window to workspace
-- `$mod+c` — Flameshot screenshot GUI  
+- `$mod+c` — Flameshot screenshot GUI
 - `Print` — Screenshot (maim)
 - `$mod+Shift+Escape` — Shutdown
 - **Polybar:** custom telemetry bar. See [`.config/polybar/README.md`](.config/polybar/README.md) for modules, click actions, profiles, dependencies, and maintenance.
@@ -125,7 +125,7 @@ soz && sec-tools
 - Opacity: 1.0
 - `Alt+p` — Paste
 - `Alt+c` — Copy
-- `Alt+h/j/k/l` — Send arrows (for tmux/vim navigation)  
+- `Alt+h/j/k/l` — Send arrows (for tmux/vim navigation)
 - Theme: Josean Martinez / aura.toml inspired dark scheme (background `#011423`, foreground `#CBE0F0`, accent cyan `#0FC5ED`, accent green `#47FF9C`)
 
 ---
@@ -136,10 +136,10 @@ soz && sec-tools
 - Plugins: fzf-tab, zoxide, autosuggestions, syntax highlighting, powerlevel10k, zsh-alias-finder
 - Theme: powerlevel10k (lean style)
 - Config: `~/.zshrc` sources `~/.aliases` (286 entries across 27 categories)
-- fzf:  
-  - `Alt+a` — fzf alias picker (browse/search all aliases)  
-  - `Alt+F` — fzf file finder (CTRL-T style)  
-  - `Alt+z` — fzf history search (CTRL-R style)  
+- fzf:
+  - `Alt+a` — fzf alias picker (browse/search all aliases)
+  - `Alt+F` — fzf file finder (CTRL-T style)
+  - `Alt+z` — fzf history search (CTRL-R style)
   - `Ctrl+G` — AI chat widget
 - `Ctrl+e` — edit current command line in nvim
 - `Ctrl+E` — edit-command-line widget
@@ -150,7 +150,7 @@ soz && sec-tools
 
 ### `~/.aliases` — Complete Reference
 
-All aliases and shell functions are consolidated in `~/.aliases` (sourced by `.zshrc`).  
+All aliases and shell functions are consolidated in `~/.aliases` (sourced by `.zshrc`).
 Categories below with real-world usage examples.
 
 ---
@@ -542,74 +542,72 @@ cbpaste | jq .                          # Paste and pipe
 
 ---
 
-### Neovim (LazyVim-based, custom `lua/rendi/` structure)
+### Neovim (custom config built on lazy.nvim)
 
-- **File explorer:**  
-  - `<leader>ee` — Toggle nvim-tree  
-  - `<leader>ef` — Reveal current file  
-  - `<leader>ec` — Collapse tree  
-  - `<leader>er` — Refresh tree  
-- **Telescope:**  
-  - `<leader>ff` — Find files  
-  - `<leader>fr` — Recent files  
-  - `<leader>fs` — Live grep  
-  - `<leader>fc` — Grep under cursor  
-  - `<leader>ft` — Telescope tabs  
-- **LSP:**  
-  - `gd` — Go to definition  
-  - `gR` — References (Telescope)  
-  - `gi` — Implementations  
-  - `gt` — Type definition  
-  - `K` — Hover documentation  
-  - `<leader>ca` — Code actions (with preview)  
-  - `<leader>rn` — Rename  
-  - `<leader>ld` — Line diagnostics  
-  - `<leader>lD` — Buffer diagnostics (Telescope)  
-  - `[d` / `]d` — Previous/next diagnostic  
-  - `<leader>th` — Toggle inlay hints  
-  - `<C-k>` — Signature help (insert mode)  
-  - `<leader>ci` / `<leader>co` — Call hierarchy  
-- **Telescope (22 commands):**  
-  - `<leader>ff` / `<leader>fF` — Find files / incl hidden  
-  - `<leader>fr` — Recent files  
-  - `<leader>fs` — Live grep / `<leader>fS` — Grep word  
-  - `<leader>fb` — Buffers / `<leader>ft` — Tabs  
-  - `<leader>fi` / `<leader>fI` — Document/workspace symbols  
-  - `<leader>fc` / `<leader>fC` — References/implementations  
-  - `<leader>fg` / `<leader>fG` — Git status/commits  
-  - `<leader>fd` — TODOs / `<leader>fD` — Diagnostics  
-  - `<leader>fh` — Help tags / `<leader>fk` — Keymaps  
-  - `<leader>fB` — File browser  
-  - `<leader>fy` — Clipboard history  
-- **Editing:**  
-  - `x` — Delete char (black hole)  
-  - `<leader>dd` — Delete line (black hole)  
-  - `<leader>d` + motion — Delete motion (black hole)  
-  - `<leader>cc` — Change line (black hole)  
-  - `<leader>c` + motion — Change motion (black hole)  
-  - `<leader>D` — Delete to EOL / `<leader>C` — Change to EOL  
-  - `<leader>rs` / `<leader>rl` — Substitute with motion / line  
-  - `<leader>sm` — Toggle maximizer  
-  - `<leader>sw` / `<leader>sv` / `<leader>sh` — Splits  
-  - `<leader>to/tx/tn/tp/tf` — Tab operations  
-  - `<leader>zm` — Zen mode  
-- **Git:**  
-  - `<leader>lg` — Lazygit toggle  
-  - `<leader>fg` — Git status (Telescope)  
-  - `<leader>fG` — Git commits (Telescope)  
-- **Other plugins:** auto-session, aerial (outline, `<leader>cs`), leap, surround, substitute, trouble, which-key, conform (auto-format), autopairs, comment, silicon (code screenshot), markdown-preview
+Config lives in `~/.config/nvim` and is organized as:
 
-Check `~/.config/nvim/lua/rendi/` for per-plugin configuration.
+```
+lua/rendi/
+├── core/          options, keymaps, autocmds, palette
+├── lsp/           LSP attach, capabilities, diagnostics
+├── telescope/     reusable picker helpers
+├── tree/          file explorer helpers, actions menu, live server
+├── quickfix/      paste-log location extractor
+└── plugins/       specs grouped into ui/, editor/, tools/, lang/, git/
+```
+
+- **Startup:** `alpha-nvim` dashboard and nvim-tree auto-open on launch.
+- **File explorer:**
+  - `<leader>ee` — Toggle nvim-tree
+  - `<leader>ef` — Reveal current file
+  - `<leader>ec` — Collapse tree
+  - `<leader>er` — Refresh tree
+  - Right-click a file — modern dropdown menu with Cut/Copy/Paste/Rename/Delete, Open in Browser, Start/Stop Live Server, Copy Path. Double-click or `Enter` confirms.
+- **Telescope:**
+  - `<leader>ff` / `<leader>fF` — Find files progressively / full repository search
+  - `<leader>fr` — Recent files
+  - `<leader>fs` / `<leader>fc` — Live grep / grep word under cursor
+  - `<leader>fb` / `<leader>ft` — Buffers / Tabs
+  - `<leader>fds` / `<leader>fws` — Document / workspace symbols
+  - `<leader>fdr` / `<leader>fdi` / `<leader>fdd` — References / implementations / definition
+  - `<leader>fgc` / `<leader>fgs` — Git commits / status
+  - `<leader>fB` — File browser
+  - `<leader>fy` — Clipboard history
+  - `<leader>fk` / `<leader>fh` — Keymaps / help tags
+  - `<leader>ftd` — Todo comments
+- **LSP:**
+  - `gd` / `gD` / `gi` / `gt` — Definition / declaration / implementations / type definitions
+  - `gR` — References (Telescope)
+  - `K` — Hover; `<C-k>` — signature help in insert mode
+  - `<leader>ca` — Code actions with preview
+  - `<leader>rn` — Rename
+  - `[d` / `]d` — Previous / next diagnostic
+  - `<leader>th` — Toggle inlay hints
+  - `<leader>ci` / `<leader>co` — Incoming / outgoing calls
+- **Windows, splits, tabs:**
+  - `<leader>wv` / `<leader>wh` — Vertical / horizontal split
+  - `<leader>wx` — Close current split; `<leader>wo` — Close all other splits
+  - `<leader>tx` — Close current tab; `<leader>tO` — Close all other tabs
+  - `<leader>wm` — Maximize/minimize split; `<leader>zm` — Zen mode
+- **Editing:**
+  - `x`, `<leader>d`, `<leader>c` — black-hole delete/change operators
+  - `<leader>p` / `<leader>P` — paste from register 0
+  - `<leader>ss` / `<leader>S` — substitute line / to end of line
+  - `<leader>q*` — comment cleanup; `<leader>lc` — extract pasted errors to quickfix
+- **Tools:** `<leader>lz` — Lazy, `<leader>mm` — Mason, `<leader>lg` — LazyGit, `<leader>ld` — LazyDocker, `<leader>mp` — format, `<leader>cs` — code outline, `<leader>wr` / `<leader>ws` — restore/save session.
+- **Other plugins:** obsidian.nvim, render-markdown.nvim, hurl.nvim, typr, gitsigns, trouble, which-key, conform, autopairs, leap, surround, silicon, markdown-preview.
+
+Run `:Lazy` to inspect the 70 installed plugins.
 
 ---
 
 ## FAQ
 
-- **Fonts look weird?**  
+- **Fonts look weird?**
   Set your terminal font to JetBrainsMono Nerd Font.
-- **First launch of nvim is slow?**  
+- **First launch of nvim is slow?**
   Wait for plugins to install, then restart.
-- **Missing icons in nvim-tree/telescope?**  
+- **Missing icons in nvim-tree/telescope?**
   Install the Nerd Font and `nvim-web-devicons`.
 
 ---

@@ -2,7 +2,9 @@
 
 set -euo pipefail
 
-if ! temperature=$(timeout 2 sensors -j 2>/dev/null | jq -r '."k10temp-pci-00c3".Tctl.temp1_input // empty'); then
+if ! temperature=$(timeout 2 sensors -j 2>/dev/null | jq -r '
+    .["coretemp-isa-0000"]["Package id 0"].temp1_input //
+    .["k10temp-pci-00c3"].Tctl.temp1_input // empty'); then
     printf '%%{F#627E97}TEMP n/a%%{F-}'
     exit 0
 fi
